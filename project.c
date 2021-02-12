@@ -85,15 +85,12 @@ k = 0 ;
     {
         if ((paragraph[j] == ' '))
         {
-
             arr[i][k] = '\0';
             i++;
             k = 0;
         }
         else
-
              arr[i][k++] = paragraph[j];
-
     }
     */
 
@@ -218,11 +215,56 @@ int countOccurrences(char * str, char * toSearch)
 
     return count;
 }
-ch_fr_print(int chars_size,char chars[],int chars_freq[]){
-    printf("char    freq \n");
-for (int i=0;i<chars_size;i++){
-    printf("%c       %d \n",chars[i],chars_freq[i]);
-}
+void v_CharFrequency ( char paragraph[])
+{
+    char arr[100];
+    int i,j;
+    int freq = 0;
+    int m = 0,flag = 0;
+
+
+
+
+    for(i=0; paragraph[i] != '\0';i++)
+    {
+        for(j=0 ; arr[j] != '\0'; j++)
+        {
+            if(arr[j] == paragraph[i])
+            {
+                flag = 1;
+                continue;
+            }
+        }
+        if(flag == 0)
+        {
+
+            arr[m] = paragraph[i];
+            m++;
+
+        }
+        flag = 0;
+
+
+    }
+
+    for(i=0; arr[i] != '\0' ; i++)
+    {
+        for(j=0;  paragraph[j] != '\0' ; j++)
+        {
+
+            if(paragraph[j] ==  arr[i])
+            {
+                freq ++;
+            }
+        }
+        if (arr[i] != ' ' && arr[i] != '\n' && freq != 0)
+        {
+
+            printf("Character %c Occurs %d\n", arr[i] ,freq);
+
+        }
+        freq = 0;
+    }
 }
 
 void Word_Statistics(char paragraph[100]){
@@ -358,7 +400,7 @@ int main(int argc, char** argv)
 
         int i,j,x=0;
         int choose123;
-
+       // int arr4[200];
 
 
         int choise;
@@ -369,24 +411,10 @@ int main(int argc, char** argv)
         case 1:
             //1st point
 
+        //char paragraph[200];
 
-        for (i=1;i<n;i++){
-            x=0;
-            //check if already added to chars
-            for(j=0;j<chars_size;j++){
-                if(all[i]==chars[j]){
-                    chars_freq[j]++;
-                    x=1;
-                }
-            }
-            //if not added to chars
-            if(x==0){
-                chars[chars_size]=all[i];
-                chars_freq[chars_size]=1;
-                chars_size++;
-            }
-        }
-            ch_fr_print(chars_size,chars,chars_freq);
+        v_CharFrequency(all2);
+
         break;
 
         case 2:
