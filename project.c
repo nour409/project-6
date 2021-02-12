@@ -7,6 +7,183 @@
 int arr_size = 100;
 int chars_size=1;
 
+int countOccurrences(char * str, char * toSearch)
+{
+    int i, j, found, count;
+    int stringLen, searchLen;
+
+    stringLen = strlen(str);      // length of string
+    searchLen = strlen(toSearch); // length of word to be searched
+
+    count = 0;
+
+    for(i=0; i < stringLen; i++)
+    {
+        /* Match word with string */
+        found = 1;
+        for(j=0; j<searchLen; j++)
+        {
+            if(str[i + j] != toSearch[j])
+            {
+                found = 0;
+                break;
+            }
+        }
+
+        if(found == 1)
+        {
+            count++;
+        }
+
+    }
+
+    return count;
+}
+void v_CharFrequency ( char paragraph[])
+{
+    char arr[100];
+    int i,j;
+    int freq = 0;
+    int m = 0,flag = 0;
+
+
+
+
+    for(i=0; paragraph[i] != '\0';i++)
+    {
+        for(j=0 ; arr[j] != '\0'; j++)
+        {
+            if(arr[j] == paragraph[i])
+            {
+                flag = 1;
+                continue;
+            }
+        }
+        if(flag == 0)
+        {
+
+            arr[m] = paragraph[i];
+            m++;
+
+        }
+        flag = 0;
+
+
+    }
+
+    for(i=0; arr[i] != '\0' ; i++)
+    {
+        for(j=0;  paragraph[j] != '\0' ; j++)
+        {
+
+            if(paragraph[j] ==  arr[i])
+            {
+                freq ++;
+            }
+        }
+        if (arr[i] != ' ' && arr[i] != '\n' && freq != 0)
+        {
+
+            printf("Character %c Occurs %d\n", arr[i] ,freq);
+
+        }
+        freq = 0;
+    }
+}
+int findandreplae(char s1[100],char sw[20],char rw[20]){
+    char w[20],ch;
+    strcat(s1," ");
+    int i,k=0,flag=0;
+	for(i=0;s1[i]!='\0';i++)
+	{
+		ch=s1[i];
+		if(ch!=' ')
+		{
+			w[k]=ch;
+			k++;
+		}
+		else
+		{
+			w[k]='\0';
+			k=0;
+			if(strcmp(w,sw)==0)
+			{   flag=1;
+				printf("%s ",rw);
+
+			}
+			else
+			{
+				printf("%s ",w);
+			}
+		}
+	}
+return flag;
+}
+void Word_Statistics(char paragraph[100]){
+
+
+
+    int count = 0;
+    int i;
+    int j = 0;
+    int k=0;
+    int space = 0;
+    int flag = 0;
+    char arr [100][100] ;
+
+
+    for (i = 0;i<strlen(paragraph);i++)
+
+    {
+        if ((paragraph[i] == ' '))
+        {
+            space++;
+        }
+
+    }
+i = 0 ;
+k = 0 ;
+   for ( j = 0;j < strlen(paragraph);j++)
+    {
+        if ((paragraph[j] == ' '))
+        {
+
+            arr[i][k] = '\0';
+            i++;
+            k = 0;
+        }
+        else
+
+             arr[i][k++] = paragraph[j];
+
+    }
+
+    for (i = 0;i <= space;i++)
+    {
+
+        for (j = 0;j <= space;j++)
+        {
+            k= 0 ;
+            while(arr[i][k] != '\0')
+            {
+
+                if(arr[i][k] != arr[j][k])
+                {
+                    flag = 1;
+                    break;
+
+                }
+                k++;
+
+            }
+            if(flag == 0){
+                count++;}
+            flag = 0;
+        }
+        printf("%s -> %d times\n", arr[i], count);
+        count = 0;
+    }
+    }
 void CharFreqEq(char all[]){
 int i=0;
 size_t n = strlen(all);
@@ -183,185 +360,8 @@ void quicksort(char * arr[], unsigned int length) {
 	piv++;
 	quicksort(arr + piv, length - piv);
 }
-int countOccurrences(char * str, char * toSearch)
-{
-    int i, j, found, count;
-    int stringLen, searchLen;
-
-    stringLen = strlen(str);      // length of string
-    searchLen = strlen(toSearch); // length of word to be searched
-
-    count = 0;
-
-    for(i=0; i < stringLen; i++)
-    {
-        /* Match word with string */
-        found = 1;
-        for(j=0; j<searchLen; j++)
-        {
-            if(str[i + j] != toSearch[j])
-            {
-                found = 0;
-                break;
-            }
-        }
-
-        if(found == 1)
-        {
-            count++;
-        }
-
-    }
-
-    return count;
-}
-void v_CharFrequency ( char paragraph[])
-{
-    char arr[100];
-    int i,j;
-    int freq = 0;
-    int m = 0,flag = 0;
 
 
-
-
-    for(i=0; paragraph[i] != '\0';i++)
-    {
-        for(j=0 ; arr[j] != '\0'; j++)
-        {
-            if(arr[j] == paragraph[i])
-            {
-                flag = 1;
-                continue;
-            }
-        }
-        if(flag == 0)
-        {
-
-            arr[m] = paragraph[i];
-            m++;
-
-        }
-        flag = 0;
-
-
-    }
-
-    for(i=0; arr[i] != '\0' ; i++)
-    {
-        for(j=0;  paragraph[j] != '\0' ; j++)
-        {
-
-            if(paragraph[j] ==  arr[i])
-            {
-                freq ++;
-            }
-        }
-        if (arr[i] != ' ' && arr[i] != '\n' && freq != 0)
-        {
-
-            printf("Character %c Occurs %d\n", arr[i] ,freq);
-
-        }
-        freq = 0;
-    }
-}
-
-void Word_Statistics(char paragraph[100]){
-
-
-
-    int count = 0;
-    int i;
-    int j = 0;
-    int k=0;
-    int space = 0;
-    int flag = 0;
-    char arr [100][100] ;
-
-
-    for (i = 0;i<strlen(paragraph);i++)
-
-    {
-        if ((paragraph[i] == ' '))
-        {
-            space++;
-        }
-
-    }
-i = 0 ;
-k = 0 ;
-   for ( j = 0;j < strlen(paragraph);j++)
-    {
-        if ((paragraph[j] == ' '))
-        {
-
-            arr[i][k] = '\0';
-            i++;
-            k = 0;
-        }
-        else
-
-             arr[i][k++] = paragraph[j];
-
-    }
-
-    for (i = 0;i <= space;i++)
-    {
-
-        for (j = 0;j <= space;j++)
-        {
-            k= 0 ;
-            while(arr[i][k] != '\0')
-            {
-
-                if(arr[i][k] != arr[j][k])
-                {
-                    flag = 1;
-                    break;
-
-                }
-                k++;
-
-            }
-            if(flag == 0){
-                count++;}
-            flag = 0;
-        }
-        printf("%s -> %d times\n", arr[i], count);
-        count = 0;
-    }
-    }
-
-int findandreplae(char s1[100],char sw[20],char rw[20]){
-    char w[20],ch;
-    strcat(s1," ");
-    int i,k=0,flag=0;
-	for(i=0;s1[i]!='\0';i++)
-	{
-		ch=s1[i];
-		if(ch!=' ')
-		{
-			w[k]=ch;
-			k++;
-		}
-		else
-		{
-			w[k]='\0';
-			k=0;
-			if(strcmp(w,sw)==0)
-			{   flag=1;
-				printf("%s ",rw);
-
-			}
-			else
-			{
-				printf("%s ",w);
-			}
-		}
-	}
-return flag;
-}
 
 int main(int argc, char** argv)
 {     char sw[20],rw[20];
