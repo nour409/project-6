@@ -48,11 +48,11 @@ freq_arr: .word   0 : 32
 size: .word  32 
 
 
-$s0:i 	# load counter 
-Msg1:.asciiz "carachter"
-Msg2:.asciiz"has freq of 1 \n"
-Msg3:.asciiz"has freq of 2 \n" 
-Msg4:.asciiz"has freq of 3 \n"
+
+
+Msg2:.asciiz "   has freq of 1 \n"
+Msg3:.asciiz "   has freq of 2 \n" 
+Msg4:.asciiz "   has freq of 3 \n"
 
 ################################################################# main ##############################################################3
 .text
@@ -776,82 +776,180 @@ Word_Statistics :
 		FreqCharEq:
 		
 			
-			addi $t2,$zero,0
-			addi $t3,$zero,0
- 			
- 				la   $t0, FreqArr      # load address of char array 
- 				la   $t1, numbers        # load address of freq array
- 				
- 					
- 				 		
-			L5:# while 
-				
-				add $s0,$t0,$t2
-				add $s1,$t1,$t3
-								
-				beqz  $s0,exit 	      # exit if reach to end of array 
-				
-				IFm:
-					bne $s0,1,ELSE1 #if $s1"i"==1 go to label else1
-					#print char from array
-					li $v0,4
-					lb $a0,($s0)
-					syscall
-					# print freq = 1
-					li $v0,4
-					la $a0,Msg1
-					syscall
-					
-					#increment counters
-					addi $t2,$t2,1
-					addi $t3,$t3,1
-					#check the condetion of loop with new values
-					j L5
-					
-				ELSE1:
-					bne $s0,2,ELSE2
-					#print char from array
-					li $v0,4
-					lb $a0,($s0)
-					syscall
-					# print freq = 1
-					li $v0,4
-					la $a0,Msg2
-					syscall
-					
-					#increment counters
-					addi $t2,$t2,1
-					addi $t3,$t3,1
-					#check the condetion of loop with new values
-					j L5
-					
-				ELSE2:
-					bne $s0,3,ELSE3
-					#print char from array
-					li $v0,4
-					lb $a0,($s0)
-					syscall
-					# print freq = 1
-					li $v0,4
-					la $a0,Msg3
-					syscall
-					
-					#increment counters
-					addi $t2,$t2,1
-					addi $t3,$t3,1
-					#check the condetion of loop with new values
-					j L5
-					
-				ELSE3:
+ la $t0, paragraph # Put the address of the array paragraph in $t0
+  		lw $t1, i # First loop Counter
+  		la $t2, FreqArr # Put the address of the array arr in $t2
+  		lw $t3, i  #Second loop Counter j
+  		lw $t4, i  #Flag 
+  		lw $t5, i  #Index of the array arr (m)
+		
+  		Ll1: 
+  		
+  		
+  		    add $s1, $t0, $t1 # Put the sum of the address of paragraph and i in $s1
+  		    lb $s2, 0($s1) # Get the value of the address in register $s1 and put it in $s2
+  		    # If $s2 = NULL Go to Exit1
+  		    beq $s2, $zero, Exit1lF
+  		    
+			
+  		    Ll2: 
+  		    	add $s3, $t2, $t3 # Put the sum of the address of arr and j in $s3
+  		    	lb $s4, 0($s3) # Get the value of the address in register $s3 and put it in $s4
+  		    	# If $s4 = NULL Go to Exit2
+  		    	beq $s4, $zero, Exit2lF
+  		    	addi $t3, $t3, 1 # j++
+  		    	# If paragraph[i] == arr[j]
+  		    	bne $s2, $s4, Ll2 
+  		    	ori $t4, $t4, 1 #flag = 1
+  		    	j Ll2
+  		    	
+  		    	Exit2lF:
+  		    		# If flag == 0
+  		    		bne $t4, $zero, Exit3lF
+  		    		# If flag != ' '
+  		    		beq $s2, ' ', Exit3lF
+  		    		# If flag != '\n'
+  		    		beq $s2, '\n', Exit3lF
+  		    		
+  		    		add $s5, $t2, $t5 # address of array arr + index of arr
+  		    		# Put the value of $s2 in address that is in register $s5
+  		    		sb  $s2, 0($s5)
+  		    		addi $t5, $t5, 1 #index of arr + 1
+  		    		
+  		    	Exit3lF:
+  		    	
+  		    	andi $t4, $t4, 0 # Flag = 0
+  		    
+  		    
+  		    addi $t1, $t1, 1 # i++
+  		    andi $t3, $t3, 0 # j=0
+  		    j Ll1
+  		    
+  			
+  	    
+		Exit1lF:	    
+			li $a1,1
+			li $a2,2
+			li $a3,3
+		la $t0, paragraph
+  		lw $t1, i #First loop Counter
+  		la $t2, FreqArr
+  		lw $t3, j  #Second loop Counter j
+  		lw $t4, m  #Frequency
+  		la $t5, numbers #Array to save number of occurence
+  		lw $t6, i 	# Counter of Numbers Array	
+  		Loopl1: 
+  		
+  			add $s0, $t2, $t1  #Put the sum of the address of arr and i in $s0
+  			lb $s1, 0($s0)  # Get the value of the address in register $s0 and put it in $s1
+  			# If value in $s1 (arr[i] != NULL)
+  			beqz $s1, E_Loopl1
+  			
+  			Loopl2:
+  			
+  				add $s2, $t0, $t3  #Put the sum of the address of paragraph and j in $s2
+  				lb $s3, 0($s2)  # Get the value of the address in register $s2 and put it in $s3
+  				# If value in $s3 (paragraph[j] != NULL)
+  				beqz $s3, E_Loopl2
+  				# If ( paragraph[j] ==  arr[i] )
+  				bne $s3, $s1, E_If1l
+  				addi $t4, $t4, 1 # Frequency++
+  				
+  				E_If1l:
+  				
+  				addi $t3, $t3, 1 # j++
+  				j Loopl2
+  			E_Loopl2:
+  			
+  			# Display CharMessage
+  		
+  			
+  			bne $t4,$a1,lp2
+  			#li $v0, 4
+			#la $a0, CharMessage
+			#syscall
+  			
+  			# Display the Character
+  			
+  			sb $s1, letter
+  		    	lb $a0, letter
+		    	li $v0, 11   
+		      	syscall
+  			
+  			li $v0,4
+  			la $a0,Msg2
+  			syscall 
+  			
+  			
+  			# Display the value in register $t4 (frequency)
+  			
+  			#sb $t4, letter
+  		    	#lb $a0, letter
+		    	#li $v0, 1   # print_character
+		    	#syscall
+		    	
+		    	# Make new Line
+		    	
+		    	li $t8,'\n'         
+			sb $t8,letter	   
+			lb $a0,letter	    
+			li $v0,11	   
+			syscall
+			
+			andi $t4, $t4, 0 # Frequency =0
+  			addi $t1, $t1, 1 # i++
+  			andi $t3, $t3, 0 # j=0
+  			j Loopl1
+		lp2:
+			bne $t4,$a2,lp3
+			
+			sb $s1, letter
+  		    	lb $a0, letter
+		    	li $v0, 11   
+		      	syscall
+			
+			li $v0,4
+  			la $a0,Msg3
+  			syscall 
+  			
+			andi $t4, $t4, 0 # Frequency =0
+  			addi $t1, $t1, 1 # i++
+  			andi $t3, $t3, 0 # j=0
+  			j Loopl1
+			
+		lp3:
+			bne $t4,$a3,lp4
+			
+			sb $s1, letter
+  		    	lb $a0, letter
+		    	li $v0, 11   
+		      	syscall
+			
+			li $v0,4
+  			la $a0,Msg4
+  			syscall 
+  			
+			andi $t4, $t4, 0 # Frequency =0
+  			addi $t1, $t1, 1 # i++
+  			andi $t3, $t3, 0 # j=0
+  			j Loopl1
+			#Add the number to an array
+			
+			#add $s4, $t5, $t6
+			#sb $t4, 0($s4)
+			#addi $t6, $t6, 1
+		lp4:
+			
+  			andi $t4, $t4, 0 # Frequency =0
+  			addi $t1, $t1, 1 # i++
+  			andi $t3, $t3, 0 # j=0
+  			j Loopl1
+  		E_Loopl1:
 
-					addi $t2,$t2,1
-					addi $t3,$t3,1
-					j L5
-					
-				exit:
-		    			j done
+	
+			
+		    		j done
 		    
-
 ##################################################################### StartQucikSort ######################################################
 StartQucikSort:
 	jal SplitString             # call split string 
