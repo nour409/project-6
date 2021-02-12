@@ -93,28 +93,7 @@ Msg4:.asciiz"has freq of 3 \n"
 		
 		
 				
-						
-################################################## Count Specific Word #########################################
-	search:
-	li $s0,0 
-		remove311:
-		    lb $a3,paragraph($s0)    # Load character at index
-		    addi $s0,$s0,1      # Increment index
-		    bnez $a3,remove311     # Loop until the end of string is reached
-		    beq $a1,$s0,skip311    # Do not remove \n when string = maxlength
-		    subiu $s0,$s0,2     # If above not true, Backtrack index to '\n'
-		    sb $0, paragraph($s0)    # Add the terminating character in its place
-		    skip311:
 		
-		jal CountOccurrences
-		
-		li $t6, '\n'
-		sb $t6, letter
-  		    
-  		lb $a0, letter
-		li $v0, 11   # print_character
-		syscall
-	j done		
 ################################################## count Word Occure And Replace Word #########################################
 	search:
 	li $s0,0 
