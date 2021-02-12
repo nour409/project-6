@@ -404,8 +404,9 @@ int main(int argc, char** argv)
 
 
         int choise;
-        printf("select from \n1    Character Statistics ,Frequency \n2    Word Statistics \n3    Find and replace a character or a word.\n4    Get all characters/wordsthat have frequencies of one, twoand three.\n5    Search on a specific word/character \n6    sort word  using quicksort\n");
+        printf("select from \n1    Character Statistics ,Frequency \n2    Word Statistics \n3    Find and replace a character or a word.\n4    Get all characters/wordsthat have frequencies of one, twoand three.\n5    Search on a specific word/character \n6    sort word  using quicksort\n0   to end the program\n");
         scanf("%d",&choise);
+while(choise != 0){
 
     switch(choise){
         case 1:
@@ -484,5 +485,8 @@ int main(int argc, char** argv)
         break;
 
     }
+printf("\nselect from \n1    Character Statistics ,Frequency \n2    Word Statistics \n3    Find and replace a character or a word.\n4    Get all characters/wordsthat have frequencies of one, twoand three.\n5    Search on a specific word/character \n6    sort word  using quicksort\n0   to end the program\n");
+        scanf("%d",&choise);
+}
     return 0;
 }
